@@ -5,6 +5,10 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+
+import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.ElevatorDefaultCommand;
+import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -15,6 +19,7 @@ public abstract class Teleop extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
+    ElevatorSubsystem elevator;
 
     // Game controllers
     GamepadEx driveGamepad;
@@ -25,8 +30,9 @@ public abstract class Teleop extends StealthOpMode {
     public void initialize() {
         // Setup and register all of your subsystems here
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
+        elevator = new ElevatorSubsystem(hardwareMap);
 
-        register(drive);
+        register(drive, elevator);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
@@ -44,25 +50,33 @@ public abstract class Teleop extends StealthOpMode {
                 )
         );
 
-        Button button = mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
-                new SequentialCommandGroup(
-                        new InstantCommand(() -> elevator.setTargetLocation(0.0)),
-                        new InstantCommand(() -> arm.scorePosition())
-                )
-        );
-        Button button1 = mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
-                new SequentialCommandGroup(
-                        new InstantCommand(() -> elevator.setTargetLocation(1)),
-                        new InstantCommand(() -> arm.intakePosition())
+        elevator.setDefaultCommand(
+                new ElevatorDefaultCommand (
+                        elevator,
+                        () -> driveGamepad.gamepad.left_trigger,
+                        () -> driveGamepad.gamepad.right_trigger
                 )
         );
 
-        mechGamepad.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(new ResetElevatorCommand(elevator));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> drive.resetHeading()));
+//        Button button = mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+//                new SequentialCommandGroup(
+//                        new InstantCommand(() -> elevator.setTargetLocation(0.0)),
+//                        new InstantCommand(() -> arm.scorePosition())
+//                )
+//        );
+//        Button button1 = mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
+//                new SequentialCommandGroup(
+//                        new InstantCommand(() -> elevator.setTargetLocation(1)),
+//                        new InstantCommand(() -> arm.intakePosition())
+//                )
+//        );
 
-        mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> lever.toggle()));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> arm.toggle()));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> airplane.toggle()));
+//        mechGamepad.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(new ResetElevatorCommand(elevator));
+//        driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> drive.resetHeading()));
+//
+//        mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> lever.toggle()));
+//        mechGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> arm.toggle()));
+//        mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> airplane.toggle()));
 
 
     }

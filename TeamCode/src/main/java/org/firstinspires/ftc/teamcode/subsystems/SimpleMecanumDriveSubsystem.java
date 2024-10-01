@@ -21,9 +21,9 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     public final DcMotor leftFrontDrive;
     public final DcMotor leftRearDrive;
     public final DcMotor rightFrontDrive;
-    public DcMotor rightRearDrive;
+    public final DcMotor rightRearDrive;
     final IMU imu;
-    boolean fieldcentric = true;
+    boolean fieldcentric = false;
     boolean slowMode = false;
     double headingOffset = 0.0;
 
@@ -146,13 +146,6 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-//        telemetry.addData("Drive ticks", getTicks());
-        //      telemetry.addData("Field centric driving", fieldcentric);
-        //    telemetry.addData("Bot Heading", getHeading());
-        // telemetry.addData("leftfrontpower", leftFrontDrive.getPower());
-        // telemetry.addData("leftrearpower", leftRearDrive.getPower());
-        // telemetry.addData("rightfrontpower", rightFrontDrive.getPower());
-        // telemetry.addData("rightrearpower", rightRearDrive.getPower());
 
     }
     public void toggleSlowMode(){
