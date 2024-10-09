@@ -12,7 +12,7 @@ public class ElevatorDefaultCommand extends CommandBase {
     private final DoubleSupplier leftTrigger;
     private final DoubleSupplier rightTrigger;
 
-    public ElevatorDefaultCommand(ElevatorSubsystem elevatorSubsystem, DoubleSupplier leftTrigger, DoubleSupplier rightTrigger) {
+    public ElevatorDefaultCommand(ElevatorSubsystem elevatorSubsystem, DoubleSupplier rightTrigger, DoubleSupplier leftTrigger) {
         this.elevatorSubsystem = elevatorSubsystem;
         this.leftTrigger = leftTrigger;
         this.rightTrigger = rightTrigger;
