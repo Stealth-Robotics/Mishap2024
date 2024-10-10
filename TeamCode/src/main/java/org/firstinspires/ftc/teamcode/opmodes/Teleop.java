@@ -10,6 +10,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorDefaultCommand;
+import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -25,6 +26,8 @@ public abstract class Teleop extends StealthOpMode {
     SimpleMecanumDriveSubsystem drive;
     ElevatorSubsystem elevator;
 
+    CameraSubsystem camera;
+
     // Game controllers
     GamepadEx driveGamepad;
     GamepadEx mechGamepad;
@@ -35,8 +38,9 @@ public abstract class Teleop extends StealthOpMode {
         // Setup and register all of your subsystems here
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         elevator = new ElevatorSubsystem(hardwareMap);
+        camera = new CameraSubsystem(hardwareMap);
 
-        register(drive, elevator);
+        register(drive, elevator, camera);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
@@ -81,12 +85,6 @@ public abstract class Teleop extends StealthOpMode {
 //        mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> lever.toggle()));
 //        mechGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> arm.toggle()));
 //        mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> airplane.toggle()));
-
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        OpenCvWebcam camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        FtcDashboard.getInstance().startCameraStream(camera, 0);
-
-
     }
 
     /**
