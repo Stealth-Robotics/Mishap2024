@@ -9,19 +9,19 @@ import java.util.function.DoubleSupplier;
 
 public class ElevatorDefaultCommand extends CommandBase {
     private final ElevatorSubsystem elevatorSubsystem;
-    private final DoubleSupplier leftTrigger;
-    private final DoubleSupplier rightTrigger;
 
-    public ElevatorDefaultCommand(ElevatorSubsystem elevatorSubsystem, DoubleSupplier rightTrigger, DoubleSupplier leftTrigger) {
+    private final DoubleSupplier rightStickY2;
+
+    public ElevatorDefaultCommand(ElevatorSubsystem elevatorSubsystem, DoubleSupplier right_stick_y2) {
         this.elevatorSubsystem = elevatorSubsystem;
-        this.leftTrigger = leftTrigger;
-        this.rightTrigger = rightTrigger;
+
+        this.rightStickY2 = right_stick_y2;
 
         addRequirements(elevatorSubsystem);
     }
 
     @Override
     public void execute() {
-        elevatorSubsystem.setPower(leftTrigger.getAsDouble() - rightTrigger.getAsDouble());
+        elevatorSubsystem.setPower(rightStickY2.getAsDouble());
     }
 }

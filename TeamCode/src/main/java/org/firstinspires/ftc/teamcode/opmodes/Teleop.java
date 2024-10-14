@@ -10,8 +10,10 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorDefaultCommand;
+import org.firstinspires.ftc.teamcode.commands.IntakeDefaultCommand;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -26,6 +28,8 @@ public abstract class Teleop extends StealthOpMode {
     SimpleMecanumDriveSubsystem drive;
     ElevatorSubsystem elevator;
 
+    IntakeSubsystem intake;
+
     CameraSubsystem camera;
 
     // Game controllers
@@ -39,8 +43,9 @@ public abstract class Teleop extends StealthOpMode {
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         elevator = new ElevatorSubsystem(hardwareMap);
         camera = new CameraSubsystem(hardwareMap);
+        intake = new IntakeSubsystem(hardwareMap);
 
-        register(drive, elevator, camera);
+        register(drive, elevator, camera, intake);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
@@ -61,8 +66,14 @@ public abstract class Teleop extends StealthOpMode {
         elevator.setDefaultCommand(
                 new ElevatorDefaultCommand (
                         elevator,
-                        () -> driveGamepad.gamepad.left_trigger,
-                        () -> driveGamepad.gamepad.right_trigger
+                        () -> mechGamepad.gamepad.right_stick_y
+                )
+        );
+        intake.setDefaultCommand(
+                new IntakeDefaultCommand(
+                        intake,
+                        () -> mechGamepad.gamepad.left_trigger,
+                        () -> mechGamepad.gamepad.right_trigger
                 )
         );
 
