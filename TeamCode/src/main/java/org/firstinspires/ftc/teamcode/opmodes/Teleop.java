@@ -1,25 +1,18 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.commands.ArmDefaultCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorDefaultCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeDefaultCommand;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvWebcam;
-import org.stealthrobotics.library.Alliance;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 public abstract class Teleop extends StealthOpMode {
@@ -31,6 +24,8 @@ public abstract class Teleop extends StealthOpMode {
     IntakeSubsystem intake;
 
     CameraSubsystem camera;
+
+    ArmSubsystem arm;
 
     // Game controllers
     GamepadEx driveGamepad;
@@ -44,8 +39,9 @@ public abstract class Teleop extends StealthOpMode {
         elevator = new ElevatorSubsystem(hardwareMap);
         camera = new CameraSubsystem(hardwareMap);
         intake = new IntakeSubsystem(hardwareMap);
+        arm = new ArmSubsystem(hardwareMap);
 
-        register(drive, elevator, camera, intake);
+        register(drive, elevator, camera, intake, arm);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
@@ -74,6 +70,12 @@ public abstract class Teleop extends StealthOpMode {
                         intake,
                         () -> mechGamepad.gamepad.left_trigger,
                         () -> mechGamepad.gamepad.right_trigger
+                )
+        );
+        arm.setDefaultCommand(
+                new ArmDefaultCommand(
+                        arm,
+                        () -> mechGamepad.gamepad.left_stick_y
                 )
         );
 
