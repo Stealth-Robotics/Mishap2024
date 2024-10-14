@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 
 import org.firstinspires.ftc.teamcode.commands.ArmDefaultCommand;
+import org.firstinspires.ftc.teamcode.commands.BucketDefaultCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorDefaultCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeDefaultCommand;
+import org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
@@ -27,6 +29,8 @@ public abstract class Teleop extends StealthOpMode {
 
     ArmSubsystem arm;
 
+    BucketSubsystem bucket;
+
     // Game controllers
     GamepadEx driveGamepad;
     GamepadEx mechGamepad;
@@ -40,8 +44,9 @@ public abstract class Teleop extends StealthOpMode {
         camera = new CameraSubsystem(hardwareMap);
         intake = new IntakeSubsystem(hardwareMap);
         arm = new ArmSubsystem(hardwareMap);
+        bucket = new BucketSubsystem(hardwareMap);
 
-        register(drive, elevator, camera, intake, arm);
+        register(drive, elevator, camera, intake, arm, bucket);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
@@ -76,6 +81,12 @@ public abstract class Teleop extends StealthOpMode {
                 new ArmDefaultCommand(
                         arm,
                         () -> mechGamepad.gamepad.left_stick_y
+                )
+        );
+        bucket.setDefaultCommand(
+                new BucketDefaultCommand(
+                        bucket,
+                        () -> mechGamepad.gamepad.left_stick_x
                 )
         );
 

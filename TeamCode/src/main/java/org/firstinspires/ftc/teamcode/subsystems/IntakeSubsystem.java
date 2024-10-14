@@ -11,7 +11,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem(HardwareMap hardwareMap) {
         intakeServo = hardwareMap.get(CRServo.class, "intake");
-        
+
 
     }
 
