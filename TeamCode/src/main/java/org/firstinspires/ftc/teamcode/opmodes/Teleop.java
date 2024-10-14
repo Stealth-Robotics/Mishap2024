@@ -6,11 +6,13 @@ import org.firstinspires.ftc.teamcode.commands.ArmDefaultCommand;
 import org.firstinspires.ftc.teamcode.commands.BucketDefaultCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorDefaultCommand;
+import org.firstinspires.ftc.teamcode.commands.HangerDefaultCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeDefaultCommand;
 import org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -31,6 +33,8 @@ public abstract class Teleop extends StealthOpMode {
 
     BucketSubsystem bucket;
 
+    HangerSubsystem hanger;
+
     // Game controllers
     GamepadEx driveGamepad;
     GamepadEx mechGamepad;
@@ -46,7 +50,7 @@ public abstract class Teleop extends StealthOpMode {
         arm = new ArmSubsystem(hardwareMap);
         bucket = new BucketSubsystem(hardwareMap);
 
-        register(drive, elevator, camera, intake, arm, bucket);
+        register(drive, elevator, camera, intake, arm, bucket, hanger);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
@@ -89,7 +93,12 @@ public abstract class Teleop extends StealthOpMode {
                         () -> mechGamepad.gamepad.left_stick_x
                 )
         );
-
+        hanger.setDefaultCommand(
+                new HangerDefaultCommand(
+                        hanger,
+                        () -> driveGamepad.gamepad.right_stick_y
+                )
+        );
 //        Button button = mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
 //                new SequentialCommandGroup(
 //                        new InstantCommand(() -> elevator.setTargetLocation(0.0)),
