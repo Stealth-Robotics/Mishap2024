@@ -4,17 +4,17 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 
 import org.firstinspires.ftc.teamcode.commands.ArmDefaultCommand;
 import org.firstinspires.ftc.teamcode.commands.BucketDefaultCommand;
-import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
+//import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorDefaultCommand;
 import org.firstinspires.ftc.teamcode.commands.HangerDefaultCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeDefaultCommand;
 import org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
+//import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
+//import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.stealthrobotics.library.opmodes.StealthOpMode;
@@ -22,12 +22,12 @@ import org.stealthrobotics.library.opmodes.StealthOpMode;
 public abstract class Teleop extends StealthOpMode {
 
     // Subsystems
-    SimpleMecanumDriveSubsystem drive;
+    //SimpleMecanumDriveSubsystem drive;
     ElevatorSubsystem elevator;
 
     IntakeSubsystem intake;
 
-    CameraSubsystem camera;
+    //CameraSubsystem camera;
 
     ArmSubsystem arm;
 
@@ -43,14 +43,14 @@ public abstract class Teleop extends StealthOpMode {
     @Override
     public void initialize() {
         // Setup and register all of your subsystems here
-        drive = new SimpleMecanumDriveSubsystem(hardwareMap);
+        //drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         elevator = new ElevatorSubsystem(hardwareMap);
-        camera = new CameraSubsystem(hardwareMap);
+        //camera = new CameraSubsystem(hardwareMap);
         intake = new IntakeSubsystem(hardwareMap);
         arm = new ArmSubsystem(hardwareMap);
         bucket = new BucketSubsystem(hardwareMap);
-
-        register(drive, elevator, camera, intake, arm, bucket, hanger);
+        hanger = new HangerSubsystem(hardwareMap);
+        register(elevator, intake, arm, bucket, hanger);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
@@ -59,7 +59,7 @@ public abstract class Teleop extends StealthOpMode {
 //        schedule(new ResetElevatorCommand(elevator));
 
         // A subsystem's default command runs all the time. Great for drivetrains and such.
-        drive.setDefaultCommand(
+       /* drive.setDefaultCommand(
                 new DefaultMecanumDriveCommand(
                         drive,
                         () -> driveGamepad.gamepad.left_stick_y,
@@ -67,7 +67,7 @@ public abstract class Teleop extends StealthOpMode {
                         () -> driveGamepad.gamepad.right_stick_x
                 )
         );
-
+*/
         elevator.setDefaultCommand(
                 new ElevatorDefaultCommand (
                         elevator,
@@ -137,9 +137,9 @@ public abstract class Teleop extends StealthOpMode {
     public static class BlueTeleop extends Teleop {
     }
 
-    @Override
+ /*   @Override
     public double getFinalHeading() {
         return drive.getHeading();
     }
-
+*/
 }

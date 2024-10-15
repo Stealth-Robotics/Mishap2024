@@ -8,7 +8,7 @@ public class HangerSubsystem extends SubsystemBase {
     private final DcMotor hangerMotor;
 
     public HangerSubsystem(HardwareMap hardwareMap) {
-        hangerMotor = hardwareMap.get(DcMotor.class, "arm");
+        hangerMotor = hardwareMap.get(DcMotor.class, "hanger");
         hangerMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }

@@ -21,6 +21,6 @@ public class ArmDefaultCommand extends CommandBase {
 
     @Override
     public void execute() {
-        armSubsystem.setPower(leftStickY2.getAsDouble());
+        armSubsystem.setPower(-leftStickY2.getAsDouble());
     }
 }
