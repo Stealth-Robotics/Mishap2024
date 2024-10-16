@@ -4,23 +4,47 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
 
-import java.util.function.DoubleSupplier;
+import java.util.function.BooleanSupplier;
+
 
 public class HangerDefaultCommand extends CommandBase {
     private final HangerSubsystem hangerSubsystem;
 
-    private final DoubleSupplier rightStickY;
+    private final BooleanSupplier rightbutton;
 
-    public HangerDefaultCommand(HangerSubsystem hangerSubsystem, DoubleSupplier right_stick_y) {
+    private final BooleanSupplier leftbutton;
+
+    int power = 0;
+
+    public HangerDefaultCommand(HangerSubsystem hangerSubsystem, BooleanSupplier right_button, BooleanSupplier left_button) {
         this.hangerSubsystem = hangerSubsystem;
 
-        this.rightStickY = right_stick_y;
+        this.rightbutton = right_button;
+        this.leftbutton = left_button;
 
         addRequirements(hangerSubsystem);
     }
 
     @Override
     public void execute() {
-        hangerSubsystem.setPower(rightStickY.getAsDouble());
+        if (leftbutton.getAsBoolean() && rightbutton.getAsBoolean())
+        {
+            power = 0;
+        }
+        else if (!leftbutton.getAsBoolean() && rightbutton.getAsBoolean())
+        {
+            power = 0;
+        }
+        else if (rightbutton.getAsBoolean())
+        {
+            power = 1;
+        }
+        else
+        {
+            power = -1;
+        }
+
+
+        hangerSubsystem.setPower(power);
     }
 }
