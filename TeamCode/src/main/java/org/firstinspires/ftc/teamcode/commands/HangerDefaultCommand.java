@@ -31,17 +31,17 @@ public class HangerDefaultCommand extends CommandBase {
         {
             power = 0;
         }
-        else if (!leftbutton.getAsBoolean() && rightbutton.getAsBoolean())
+        else if (!leftbutton.getAsBoolean() && !rightbutton.getAsBoolean())
         {
             power = 0;
         }
         else if (rightbutton.getAsBoolean())
         {
-            power = 1;
-        }
-        else
-        {
             power = -1;
+        }
+        else if (leftbutton.getAsBoolean())
+        {
+            power = 1;
         }
 
 

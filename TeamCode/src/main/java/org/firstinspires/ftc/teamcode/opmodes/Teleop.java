@@ -23,18 +23,18 @@ import org.stealthrobotics.library.opmodes.StealthOpMode;
 public abstract class Teleop extends StealthOpMode {
 
     // Subsystems
-    SimpleMecanumDriveSubsystem drive;
-    ElevatorSubsystem elevator;
+    //SimpleMecanumDriveSubsystem drive; // Ports are front left: 0, back left: 1, front right: 2, back right: 3, all on Control hub. (disabled for testing)
+    ElevatorSubsystem elevator; // motor 2 exp hub 3
 
-    IntakeSubsystem intake;
+    IntakeSubsystem intake; // servo 0
 
-    //CameraSubsystem camera;
+    //CameraSubsystem camera; (No camera on robot)
 
-    ArmSubsystem arm;
+    ArmSubsystem arm; // motor 1 exp hub 3
 
     BucketSubsystem bucket;
 
-    HangerSubsystem hanger;
+    HangerSubsystem hanger; // motor 0 exp hub 3
 
     // Game controllers
     GamepadEx driveGamepad;
@@ -44,7 +44,7 @@ public abstract class Teleop extends StealthOpMode {
     @Override
     public void initialize() {
         // Setup and register all of your subsystems here
-        drive = new SimpleMecanumDriveSubsystem(hardwareMap);
+        //drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         elevator = new ElevatorSubsystem(hardwareMap);
         //camera = new CameraSubsystem(hardwareMap);
         intake = new IntakeSubsystem(hardwareMap);
@@ -60,7 +60,7 @@ public abstract class Teleop extends StealthOpMode {
 //        schedule(new ResetElevatorCommand(elevator));
 
         // A subsystem's default command runs all the time. Great for drivetrains and such.
-        drive.setDefaultCommand(
+       /* drive.setDefaultCommand(
                 new DefaultMecanumDriveCommand(
                         drive,
                         () -> driveGamepad.gamepad.left_stick_y,
@@ -68,7 +68,7 @@ public abstract class Teleop extends StealthOpMode {
                         () -> driveGamepad.gamepad.right_stick_x
                 )
         );
-
+*/
         elevator.setDefaultCommand(
                 new ElevatorDefaultCommand (
                         elevator,
@@ -139,9 +139,9 @@ public abstract class Teleop extends StealthOpMode {
     public static class BlueTeleop extends Teleop {
     }
 
-    @Override
+    /*@Override
     public double getFinalHeading() {
         return drive.getHeading();
     }
-
+*/
 }
