@@ -37,11 +37,11 @@ public class HangerDefaultCommand extends CommandBase {
         }
         else if (rightbutton.getAsBoolean())
         {
-            power = -1;
+            power = 1;
         }
         else if (leftbutton.getAsBoolean())
         {
-            power = 1;
+            power = -1;
         }
 
 
