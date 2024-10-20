@@ -14,7 +14,7 @@ public class HangerDefaultCommand extends CommandBase {
 
     private final BooleanSupplier leftbutton;
 
-    int power = 0;
+    int position = 0;
 
     public HangerDefaultCommand(HangerSubsystem hangerSubsystem, BooleanSupplier right_button, BooleanSupplier left_button) {
         this.hangerSubsystem = hangerSubsystem;
@@ -29,22 +29,22 @@ public class HangerDefaultCommand extends CommandBase {
     public void execute() {
         if (leftbutton.getAsBoolean() && rightbutton.getAsBoolean())
         {
-            power = 0;
+            position = 0;
         }
         else if (!leftbutton.getAsBoolean() && !rightbutton.getAsBoolean())
         {
-            power = 0;
+            position = 0;
         }
         else if (rightbutton.getAsBoolean())
         {
-            power = 1;
+            position = -100;
         }
         else if (leftbutton.getAsBoolean())
         {
-            power = -1;
+            position = 100;
         }
 
 
-        hangerSubsystem.setPower(power);
+        hangerSubsystem.setPosition(position);
     }
 }
