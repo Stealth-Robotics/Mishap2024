@@ -33,10 +33,10 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
         rightRearDrive = hardwareMap.get(DcMotor.class, "rightRearDrive");
 
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftRearDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftRearDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightRearDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightRearDrive.setDirection(DcMotor.Direction.REVERSE);
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRearDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -68,7 +68,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         // https://gm0.org/en/latest/docs/software/mecanum-drive.html
 
         double y = -leftSickY; // Remember, this is reversed!
-        double x = leftStickX * 1.1; // Counteract imperfect strafing
+        double x = -leftStickX * 1.1; // Counteract imperfect strafing
         double rotation = rightStickX;
         if (fieldcentric) {
             // Read inverse IMU heading, as the IMU heading is CW positive

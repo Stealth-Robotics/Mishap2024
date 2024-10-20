@@ -25,7 +25,7 @@ public class HangerSubsystem extends SubsystemBase {
         hangerMotor.getCurrentPosition();
         control.setTolerance(5);
         this.telemetry = telemetry;
-        
+
     }
 
     public void setPosition(int position) {
