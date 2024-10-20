@@ -2,14 +2,15 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class ElevatorSubsystem extends SubsystemBase {
-    private final DcMotor elevatorMotor;
+    private final DcMotorEx elevatorMotor;
 
     public ElevatorSubsystem(HardwareMap hardwareMap) {
-        elevatorMotor = hardwareMap.get(DcMotor.class, "elevator");
-        elevatorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        elevatorMotor = hardwareMap.get(DcMotorEx.class, "elevator");
+        elevatorMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
     }
 

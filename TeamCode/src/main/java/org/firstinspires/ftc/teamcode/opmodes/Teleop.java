@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.stealthrobotics.library.opmodes.StealthOpMode;
@@ -50,12 +51,11 @@ public abstract class Teleop extends StealthOpMode {
         intake = new IntakeSubsystem(hardwareMap);
         arm = new ArmSubsystem(hardwareMap);
         bucket = new BucketSubsystem(hardwareMap);
-        hanger = new HangerSubsystem(hardwareMap);
+        hanger = new HangerSubsystem(hardwareMap, telemetry);
         register(elevator, intake, arm, bucket, hanger);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
-
         // Automatically reset the elevator all the way down when we init
 //        schedule(new ResetElevatorCommand(elevator));
 
@@ -99,6 +99,7 @@ public abstract class Teleop extends StealthOpMode {
                         hanger,
                         () -> driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).get(),
                         () -> driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()
+
                 )
         );
 //        Button button = mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
