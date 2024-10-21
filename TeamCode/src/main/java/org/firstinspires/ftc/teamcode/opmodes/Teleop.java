@@ -49,7 +49,7 @@ public abstract class Teleop extends StealthOpMode {
         elevator = new ElevatorSubsystem(hardwareMap);
         //camera = new CameraSubsystem(hardwareMap);
         intake = new IntakeSubsystem(hardwareMap);
-        arm = new ArmSubsystem(hardwareMap);
+        arm = new ArmSubsystem(hardwareMap, telemetry);
         bucket = new BucketSubsystem(hardwareMap);
         hanger = new HangerSubsystem(hardwareMap, telemetry);
         register(elevator, intake, arm, bucket, hanger);

@@ -44,7 +44,7 @@ public class HangerSubsystem extends SubsystemBase {
 
 
         control.setSetPoint(targetPosition);
-        telemetry.addData("position:", position);
+        //telemetry.addData("position:", position);
     }
 
     @Override
@@ -53,8 +53,8 @@ public class HangerSubsystem extends SubsystemBase {
         hangerMotor.setPower(calc);
 
 
-        telemetry.addData("calc:", calc);
-        telemetry.addData("hook:", hangerMotor.getCurrentPosition());
-        telemetry.addData("target:", targetPosition);
+        //telemetry.addData("calc:", calc);
+        //telemetry.addData("hook:", hangerMotor.getCurrentPosition());
+        //elemetry.addData("target:", targetPosition);
     }
 }

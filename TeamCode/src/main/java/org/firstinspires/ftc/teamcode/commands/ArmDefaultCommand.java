@@ -10,6 +10,10 @@ public class ArmDefaultCommand extends CommandBase {
     private final ArmSubsystem armSubsystem;
 
     private final DoubleSupplier leftStickY2;
+    
+    double Dposition;
+    
+    int Iposition;
 
     public ArmDefaultCommand(ArmSubsystem armSubsystem, DoubleSupplier left_stick_y2) {
         this.armSubsystem = armSubsystem;
@@ -21,6 +25,10 @@ public class ArmDefaultCommand extends CommandBase {
 
     @Override
     public void execute() {
-        armSubsystem.setPower(-leftStickY2.getAsDouble());
+        Dposition = leftStickY2.getAsDouble() * 500;
+        
+
+
+        armSubsystem.setPosition(((int) Dposition));
     }
 }
