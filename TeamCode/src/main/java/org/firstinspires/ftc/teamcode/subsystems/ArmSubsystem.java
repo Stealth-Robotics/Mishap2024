@@ -21,15 +21,13 @@ public class ArmSubsystem extends SubsystemBase {
 
     private final PIDController control = new PIDController(0.1, 0, 0);
 
+    boolean resetOnce = false;
+
     public ArmSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
         armMotor = hardwareMap.get(DcMotorEx.class, "arm");
         this.telemetry = telemetry;
         armKill = hardwareMap.get(DigitalChannel.class, "armKill");
         //armMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
-        armMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        armMotor.getCurrentPosition();
         control.setTolerance(100);
 
         this.telemetry.addData("innit!", 0);
@@ -71,6 +69,17 @@ public class ArmSubsystem extends SubsystemBase {
         double calc = control.calculate(armMotor.getCurrentPosition());
         armMotor.setPower(calc);
 
+        if (checkSwitch() && !resetOnce)
+        {
+            armMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+            armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            control.setSetPoint(0);
+            resetOnce = true;
+        }
+        else if (!checkSwitch() && !resetOnce)
+        {
+            armMotor.setPower(0.3);
+        }
 
         telemetry.addData("A calc:", calc);
         telemetry.addData("arm:", armMotor.getCurrentPosition());

@@ -3,17 +3,16 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class BucketSubsystem extends SubsystemBase {
-    private final DcMotor bucketMotor;
+    private final Servo bucketMotor;
 
     public BucketSubsystem(HardwareMap hardwareMap) {
-        bucketMotor = hardwareMap.get(DcMotor.class, "arm");
-        bucketMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        bucketMotor = hardwareMap.get(Servo.class, "bucket");
     }
 
-    public void setPower(double power) {
-        bucketMotor.setPower(power);
+    public void setPosition(double position) {
+        bucketMotor.setPosition(position);
     }
 }

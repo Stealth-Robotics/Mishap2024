@@ -113,7 +113,9 @@ public abstract class Teleop extends StealthOpMode {
         bucket.setDefaultCommand(
                 new BucketDefaultCommand(
                         bucket,
-                        () -> mechGamepad.gamepad.left_stick_x
+                        () -> mechGamepad.gamepad.a,
+                        () -> mechGamepad.gamepad.b,
+                        () -> mechGamepad.gamepad.y
                 )
         );
         hanger.setDefaultCommand(
