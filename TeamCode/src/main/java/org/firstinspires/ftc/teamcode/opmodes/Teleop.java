@@ -37,6 +37,8 @@ public abstract class Teleop extends StealthOpMode {
 
     HangerSubsystem hanger; // motor 0 exp hub 3
 
+
+
     // Game controllers
     GamepadEx driveGamepad;
     GamepadEx mechGamepad;
@@ -54,6 +56,25 @@ public abstract class Teleop extends StealthOpMode {
         hanger = new HangerSubsystem(hardwareMap, telemetry);
         register(elevator, intake, arm, bucket, hanger);
 
+        for(int i=0;i<1000;i++)
+        {
+            //  Jim was here
+            this.telemetry.addData("RM SWITCH", arm.checkSwitch());
+            //telemetry.addData("arm switch:"+switchArm.toString());
+            telemetry.update();
+            //           arm.resetMotor(0.3);
+        }
+        this.telemetry.addData("RM SWITCH DONE", 0);
+        telemetry.update();
+
+
+
+        //while (!arm.checkSwitch() && !opModeIsActive())
+        {
+ //  Jim was here
+        //            arm.resetMotor(0.3);
+        }
+        arm.resetMotor(0);
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
         // Automatically reset the elevator all the way down when we init
@@ -85,7 +106,8 @@ public abstract class Teleop extends StealthOpMode {
         arm.setDefaultCommand(
                 new ArmDefaultCommand(
                         arm,
-                        () -> mechGamepad.gamepad.left_stick_y
+                        () -> mechGamepad.gamepad.left_stick_y,
+                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).get()
                 )
         );
         bucket.setDefaultCommand(
