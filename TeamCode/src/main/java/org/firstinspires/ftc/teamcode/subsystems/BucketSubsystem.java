@@ -9,12 +9,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class BucketSubsystem extends SubsystemBase {
-    private final ServoEx bucketServo;
+    private final Servo bucketServo;
 
     private final Telemetry telemetry;
 
     public BucketSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
-        bucketServo = hardwareMap.get(ServoEx.class, "bucket");
+        bucketServo = hardwareMap.get(Servo.class, "bucket");
 
         this.telemetry = telemetry;
     }

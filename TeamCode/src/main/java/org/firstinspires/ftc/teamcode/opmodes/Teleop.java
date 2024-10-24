@@ -33,7 +33,7 @@ public abstract class Teleop extends StealthOpMode {
 
     ArmSubsystem arm; // motor 1 exp hub 3
 
-    BucketSubsystem bucket;
+    BucketSubsystem bucket; // servo hub 1 expansion hub 3
 
     HangerSubsystem hanger; // motor 0 exp hub 3
 
@@ -47,7 +47,7 @@ public abstract class Teleop extends StealthOpMode {
     @Override
     public void initialize() {
         // Setup and register all of your subsystems here
-        drive = new SimpleMecanumDriveSubsystem(hardwareMap);
+        //drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         elevator = new ElevatorSubsystem(hardwareMap);
         //camera = new CameraSubsystem(hardwareMap);
         intake = new IntakeSubsystem(hardwareMap);
@@ -56,7 +56,7 @@ public abstract class Teleop extends StealthOpMode {
         hanger = new HangerSubsystem(hardwareMap, telemetry);
         register(elevator, intake, arm, bucket, hanger);
 
-        for(int i=0;i<1000;i++)
+        /*for(int i=0;i<1000;i++)
         {
             //  Jim was here
             this.telemetry.addData("RM SWITCH", arm.checkSwitch());
@@ -66,7 +66,7 @@ public abstract class Teleop extends StealthOpMode {
         }
         this.telemetry.addData("RM SWITCH DONE", 0);
         telemetry.update();
-
+*/
 
 
         //while (!arm.checkSwitch() && !opModeIsActive())
@@ -81,7 +81,7 @@ public abstract class Teleop extends StealthOpMode {
 //        schedule(new ResetElevatorCommand(elevator));
 
         // A subsystem's default command runs all the time. Great for drivetrains and such.
-        drive.setDefaultCommand(
+        /* drive.setDefaultCommand(
                 new DefaultMecanumDriveCommand(
                         drive,
                         () -> driveGamepad.gamepad.left_stick_y,
@@ -89,7 +89,7 @@ public abstract class Teleop extends StealthOpMode {
                         () -> driveGamepad.gamepad.right_stick_x
                 )
         );
-
+*/
         elevator.setDefaultCommand(
                 new ElevatorDefaultCommand (
                         elevator,
