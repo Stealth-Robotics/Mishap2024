@@ -13,37 +13,39 @@ public class BucketDefaultCommand extends CommandBase {
 
     private final BooleanSupplier a2;
 
-    private final BooleanSupplier b2;
+    private final BooleanSupplier x2;
 
     private final BooleanSupplier y2;
 
-    double position;
+    double position = 0.17;
 
-    public BucketDefaultCommand(BucketSubsystem bucketSubsystem, BooleanSupplier A2, BooleanSupplier B2, BooleanSupplier Y2) {
+    public BucketDefaultCommand(BucketSubsystem bucketSubsystem, BooleanSupplier A2, BooleanSupplier X2, BooleanSupplier Y2) {
         this.bucketSubsystem = bucketSubsystem;
 
         this.a2 = A2;
-        this.b2 = B2;
+        this.x2 = X2;
         this.y2 = Y2;
 
-        if (A2.getAsBoolean())
-        {
-            position = 0.0;
-        }
-        else if (B2.getAsBoolean())
-        {
-            position = 0.15;
-        }
-        else if (Y2.getAsBoolean())
-        {
-            position = 0.1;
-        }
+
 
         addRequirements(bucketSubsystem);
     }
 
     @Override
-    public void execute() {
+    public void execute()
+    {
+        if (x2.getAsBoolean())
+        {
+            position = 0.0;
+        }
+        else if (a2.getAsBoolean())
+        {
+            position = 0.17;
+        }
+        else if (y2.getAsBoolean())
+        {
+            position = 0.07;
+        }
         bucketSubsystem.setPosition(position);
     }
 }

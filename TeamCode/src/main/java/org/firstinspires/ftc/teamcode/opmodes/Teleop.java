@@ -47,7 +47,7 @@ public abstract class Teleop extends StealthOpMode {
     @Override
     public void initialize() {
         // Setup and register all of your subsystems here
-        //drive = new SimpleMecanumDriveSubsystem(hardwareMap);
+        drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         elevator = new ElevatorSubsystem(hardwareMap);
         //camera = new CameraSubsystem(hardwareMap);
         intake = new IntakeSubsystem(hardwareMap);
@@ -81,7 +81,7 @@ public abstract class Teleop extends StealthOpMode {
 //        schedule(new ResetElevatorCommand(elevator));
 
         // A subsystem's default command runs all the time. Great for drivetrains and such.
-        /* drive.setDefaultCommand(
+         drive.setDefaultCommand(
                 new DefaultMecanumDriveCommand(
                         drive,
                         () -> driveGamepad.gamepad.left_stick_y,
@@ -89,7 +89,7 @@ public abstract class Teleop extends StealthOpMode {
                         () -> driveGamepad.gamepad.right_stick_x
                 )
         );
-*/
+
         elevator.setDefaultCommand(
                 new ElevatorDefaultCommand (
                         elevator,
@@ -113,9 +113,10 @@ public abstract class Teleop extends StealthOpMode {
         bucket.setDefaultCommand(
                 new BucketDefaultCommand(
                         bucket,
-                        () -> mechGamepad.gamepad.a,
-                        () -> mechGamepad.gamepad.b,
-                        () -> mechGamepad.gamepad.y
+                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.A).get(),
+                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.X).get(),
+                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.Y).get()
+
                 )
         );
         hanger.setDefaultCommand(

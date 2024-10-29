@@ -39,8 +39,8 @@ public class ArmSubsystem extends SubsystemBase {
         if (armMotor.getCurrentPosition() + position > 0) {
             targetPosition = 0;
         }
-        else if (armMotor.getCurrentPosition() + position < -3500) {
-            targetPosition = -3500;
+        else if (armMotor.getCurrentPosition() + position < -3400) {
+            targetPosition = -3400;
         }
         else
         {
@@ -81,9 +81,9 @@ public class ArmSubsystem extends SubsystemBase {
             armMotor.setPower(0.3);
         }
 
-        telemetry.addData("A calc:", calc);
+        //telemetry.addData("A calc:", calc);
         telemetry.addData("arm:", armMotor.getCurrentPosition());
-        telemetry.addData("A target:", control.getSetPoint());
-        telemetry.addData("killswitch", armKill.getState());
+        /*telemetry.addData("A target:", control.getSetPoint());
+        telemetry.addData("killswitch", armKill.getState());*/
     }
 }

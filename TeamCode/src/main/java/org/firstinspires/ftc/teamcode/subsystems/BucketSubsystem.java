@@ -19,7 +19,8 @@ public class BucketSubsystem extends SubsystemBase {
         this.telemetry = telemetry;
     }
 
-    public void setPosition(double position) {
+    public void setPosition(double position)
+    {
         bucketServo.setPosition(position);
     }
 

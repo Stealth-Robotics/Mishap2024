@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
+
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.button.Trigger;
 
@@ -35,24 +37,28 @@ public class IntakeDefaultCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (rightzero == 0 && rightTrigger2.getAsDouble() <= 0.05)
+        telemetry.addData("rightZero", rightzero);
+        telemetry.addData("leftZero", leftzero);
+        telemetry.addData("power", rightTrigger2.getAsDouble() * .5 - leftTrigger2.getAsDouble() * .5 + hold);
+
+        if (rightzero == 0 && rightTrigger2.getAsDouble() <= 0.15)
         {
             hold = 0.1;
             rightzero = 1;
         }
-        else if (leftzero == 0 && leftTrigger2.getAsDouble() <= 0.05)
+        else if (leftzero == 0 && leftTrigger2.getAsDouble() <= 0.15)
         {
             hold = 0.0;
             leftzero = 1;
         }
-        if (leftTrigger2.getAsDouble() >= 0.05)
+        if (leftTrigger2.getAsDouble() >= 0.15)
         {
             leftzero = 0;
         }
-        if (rightTrigger2.getAsDouble() >= 0.05)
+        if (rightTrigger2.getAsDouble() >= 0.15)
         {
             rightzero = 0;
         }
-        intakeSubsystem.setPower(rightTrigger2.getAsDouble() - leftTrigger2.getAsDouble() + hold);
+        intakeSubsystem.setPower(rightTrigger2.getAsDouble() * .2 - leftTrigger2.getAsDouble() * .2 + hold);
     }
 }
