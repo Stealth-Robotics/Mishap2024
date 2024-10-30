@@ -59,8 +59,18 @@ public class ArmSubsystem extends SubsystemBase {
         return armKill.getState();
     }
 
-    public void resetMotor(double power){
-        armMotor.setPower(power);
+    public void resetMotor(){
+        if (checkSwitch() && !resetOnce)
+        {
+            armMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+            armMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+            control.setSetPoint(0);
+            resetOnce = true;
+        }
+        else if (!checkSwitch() && !resetOnce)
+        {
+            armMotor.setPower(0.5);
+        }
     }
 
 
@@ -69,17 +79,7 @@ public class ArmSubsystem extends SubsystemBase {
         double calc = control.calculate(armMotor.getCurrentPosition());
         armMotor.setPower(calc);
 
-        if (checkSwitch() && !resetOnce)
-        {
-            armMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-            armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            control.setSetPoint(0);
-            resetOnce = true;
-        }
-        else if (!checkSwitch() && !resetOnce)
-        {
-            armMotor.setPower(0.3);
-        }
+
 
         //telemetry.addData("A calc:", calc);
         telemetry.addData("arm:", armMotor.getCurrentPosition());

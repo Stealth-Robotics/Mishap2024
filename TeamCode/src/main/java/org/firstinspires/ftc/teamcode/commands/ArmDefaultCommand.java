@@ -10,44 +10,67 @@ import java.util.function.DoubleSupplier;
 public class ArmDefaultCommand extends CommandBase {
     private final ArmSubsystem armSubsystem;
 
-    private final DoubleSupplier leftStickY2;
+
     
     double Dposition;
 
-    boolean go_to_zero = false;
-    private final BooleanSupplier upbutton;
+    int go_to_position = 0;
+    private final BooleanSupplier up2;
+    private final BooleanSupplier left2;
 
-    public ArmDefaultCommand(ArmSubsystem armSubsystem, DoubleSupplier left_stick_y2, BooleanSupplier up_button) {
+    private final BooleanSupplier down2;
+
+    private final BooleanSupplier right2;
+
+    private final BooleanSupplier rightBumper2;
+
+    private final BooleanSupplier leftBumper2;
+
+    boolean disable_drive = false;
+
+    public ArmDefaultCommand(ArmSubsystem armSubsystem, BooleanSupplier Down2, BooleanSupplier Left2, BooleanSupplier Up2, BooleanSupplier Right2, BooleanSupplier Left_bumper2, BooleanSupplier Right_bumper2) {
         this.armSubsystem = armSubsystem;
-        this.upbutton = up_button;
-        this.leftStickY2 = left_stick_y2;
+        this.up2 = Up2;
+        this.left2 = Left2;
+        this.down2 = Down2;
+        this.right2 = Right2;
+        this.rightBumper2 = Right_bumper2;
+        this.leftBumper2 = Left_bumper2;
+
 
         addRequirements(armSubsystem);
     }
 
     @Override
     public void execute() {
-        Dposition = leftStickY2.getAsDouble() * 100;
+
 
 
         //armSubsystem.setPosition(((int) Dposition));
 
-        if (upbutton.getAsBoolean())
+        if (leftBumper2.getAsBoolean() && !disable_drive)
         {
-            go_to_zero = true;
+            go_to_position = 0;
         }
-        else
+        else if (rightBumper2.getAsBoolean() && !disable_drive)
         {
-            go_to_zero = false;
+            go_to_position = -3400;
         }
+        else if (left2.getAsBoolean() && !disable_drive)
+        {
+            go_to_position = -300;
+            disable_drive = true;
+        }
+        else if ((up2.getAsBoolean() || right2.getAsBoolean()) && !disable_drive)
+        {
+            go_to_position = 0;
+            disable_drive = true;
+        }
+        else if (down2.getAsBoolean())
+        {
+            disable_drive = true;
+        }
+        armSubsystem.setAbsolutePosition(go_to_position);
 
-        if (go_to_zero)
-        {
-            armSubsystem.setAbsolutePosition(0);
-        }
-        else
-        {
-            armSubsystem.setPosition(((int) Dposition));
-        }
     }
 }

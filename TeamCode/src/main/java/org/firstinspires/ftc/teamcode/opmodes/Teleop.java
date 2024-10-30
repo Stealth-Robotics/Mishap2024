@@ -48,7 +48,7 @@ public abstract class Teleop extends StealthOpMode {
     public void initialize() {
         // Setup and register all of your subsystems here
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
-        elevator = new ElevatorSubsystem(hardwareMap);
+        elevator = new ElevatorSubsystem(hardwareMap, telemetry);
         //camera = new CameraSubsystem(hardwareMap);
         intake = new IntakeSubsystem(hardwareMap);
         arm = new ArmSubsystem(hardwareMap, telemetry);
@@ -74,7 +74,8 @@ public abstract class Teleop extends StealthOpMode {
  //  Jim was here
         //            arm.resetMotor(0.3);
         }
-        arm.resetMotor(0);
+        arm.resetMotor();
+        //elevator.resetMotor();
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
         // Automatically reset the elevator all the way down when we init
@@ -93,7 +94,10 @@ public abstract class Teleop extends StealthOpMode {
         elevator.setDefaultCommand(
                 new ElevatorDefaultCommand (
                         elevator,
-                        () -> mechGamepad.gamepad.right_stick_y
+                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).get(),
+                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get(),
+                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).get(),
+                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).get()
                 )
         );
         intake.setDefaultCommand(
@@ -106,8 +110,12 @@ public abstract class Teleop extends StealthOpMode {
         arm.setDefaultCommand(
                 new ArmDefaultCommand(
                         arm,
-                        () -> mechGamepad.gamepad.left_stick_y,
-                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).get()
+                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).get(),
+                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get(),
+                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).get(),
+                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).get(),
+                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).get(),
+                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).get()
                 )
         );
         bucket.setDefaultCommand(

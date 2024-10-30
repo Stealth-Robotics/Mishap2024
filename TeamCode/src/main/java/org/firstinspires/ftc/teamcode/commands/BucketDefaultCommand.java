@@ -17,7 +17,7 @@ public class BucketDefaultCommand extends CommandBase {
 
     private final BooleanSupplier y2;
 
-    double position = 0.17;
+    double position = 17.0;
 
     public BucketDefaultCommand(BucketSubsystem bucketSubsystem, BooleanSupplier A2, BooleanSupplier X2, BooleanSupplier Y2) {
         this.bucketSubsystem = bucketSubsystem;
