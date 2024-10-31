@@ -34,7 +34,7 @@ public class HangerSubsystem extends SubsystemBase {
             targetPosition = 0;
         }
         else if (hangerMotor.getCurrentPosition() + position < -7800) {
-            targetPosition = -7800;
+            targetPosition = -8000;
         }
         else
         {

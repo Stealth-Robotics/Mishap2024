@@ -18,7 +18,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     int targetPosition;
 
-    private final PIDController control = new PIDController(0.1, 0, 0);
+    private final PIDController control = new PIDController(0.015, 0, 0);
 
     boolean resetOnce = false;
 
@@ -27,7 +27,10 @@ public class ElevatorSubsystem extends SubsystemBase {
         this.telemetry = telemetry;
         elevatorKill = hardwareMap.get(DigitalChannel.class, "armKill");
         //armMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        control.setTolerance(100);
+        control.setTolerance(40);
+        elevatorMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
         this.telemetry.addData("innit!", 0);
 
@@ -54,12 +57,16 @@ public class ElevatorSubsystem extends SubsystemBase {
         control.setSetPoint(position);
     }
 
+    public boolean atSetPoint(){
+        return control.atSetPoint();
+    }
+
     public boolean checkSwitch(){
         return elevatorKill.getState();
     }
 
     public void resetMotor(){
-        if (!checkSwitch() && !resetOnce)
+        /*if (!checkSwitch() && !resetOnce)
         {
             elevatorMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
             elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -69,7 +76,11 @@ public class ElevatorSubsystem extends SubsystemBase {
         else if (checkSwitch() && !resetOnce)
         {
             elevatorMotor.setPower(0.3);
-        }
+        }*/
+
+        elevatorMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        control.setSetPoint(0);
     }
 
 
@@ -81,9 +92,9 @@ public class ElevatorSubsystem extends SubsystemBase {
 
 
 
-        //telemetry.addData("A calc:", calc);
+        telemetry.addData("E calc:", calc);
         telemetry.addData("elevator:", elevatorMotor.getCurrentPosition());
-        /*telemetry.addData("A target:", control.getSetPoint());
-        telemetry.addData("killswitch", Kill.getState());*/
+        telemetry.addData("E target:", control.getSetPoint());
+        //telemetry.addData("killswitch", Kill.getState());
     }
 }

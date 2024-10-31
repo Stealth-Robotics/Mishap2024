@@ -19,7 +19,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     int targetPosition;
 
-    private final PIDController control = new PIDController(0.1, 0, 0);
+    private final PIDController control = new PIDController(0.005, 0, 0);
 
     boolean resetOnce = false;
 
@@ -28,7 +28,7 @@ public class ArmSubsystem extends SubsystemBase {
         this.telemetry = telemetry;
         armKill = hardwareMap.get(DigitalChannel.class, "armKill");
         //armMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        control.setTolerance(100);
+        control.setTolerance(150);
 
         this.telemetry.addData("innit!", 0);
 
@@ -73,6 +73,10 @@ public class ArmSubsystem extends SubsystemBase {
         }
     }
 
+    public boolean atSetPoint() {
+        return control.atSetPoint();
+    }
+
 
     @Override
     public void periodic() {
@@ -81,9 +85,11 @@ public class ArmSubsystem extends SubsystemBase {
 
 
 
-        //telemetry.addData("A calc:", calc);
+        telemetry.addData("A calc:", calc);
         telemetry.addData("arm:", armMotor.getCurrentPosition());
-        /*telemetry.addData("A target:", control.getSetPoint());
-        telemetry.addData("killswitch", armKill.getState());*/
+        telemetry.addData("A target:", control.getSetPoint());
+        //telemetry.addData("killswitch", armKill.getState());*/
     }
+
+
 }

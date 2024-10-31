@@ -54,11 +54,13 @@ public class IntakeDefaultCommand extends CommandBase {
         if (leftTrigger2.getAsDouble() >= 0.15)
         {
             leftzero = 0;
+            hold = 0.0;
         }
         if (rightTrigger2.getAsDouble() >= 0.15)
         {
             rightzero = 0;
+            hold = 0.0;
         }
-        intakeSubsystem.setPower(rightTrigger2.getAsDouble() * .2 - leftTrigger2.getAsDouble() * .2 + hold);
+        intakeSubsystem.setPower(rightTrigger2.getAsDouble() * .5 - leftTrigger2.getAsDouble() * .5 + hold);
     }
 }
