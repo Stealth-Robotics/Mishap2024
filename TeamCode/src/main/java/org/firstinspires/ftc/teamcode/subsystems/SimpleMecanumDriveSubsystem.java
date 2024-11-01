@@ -82,7 +82,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         x = x * Math.abs(x);
         rotation = rotation * Math.abs(rotation);
 
-        drive(y * 0.9, x * 0.9, rotation * 0.85); //TODO Make Slower for presision
+        drive(y * 0.85, x * 0.85, rotation * 0.85); //TODO Make Slower for presision
 
     }
 

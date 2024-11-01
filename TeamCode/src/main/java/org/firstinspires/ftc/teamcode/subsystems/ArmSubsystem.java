@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ArmSubsystem extends SubsystemBase {
     private final DcMotorEx armMotor;
 
-    private final DigitalChannel armKill; // digital port 1 expansion hub 3
+    private final DigitalChannel armKill; // digital port 0 expansion hub 3
 
     private final Telemetry telemetry;
 

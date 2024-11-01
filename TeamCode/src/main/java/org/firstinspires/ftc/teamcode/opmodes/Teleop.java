@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.commands.ArmToSetpoint;
 import org.firstinspires.ftc.teamcode.commands.BucketDefaultCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorDefaultCommand;
+import org.firstinspires.ftc.teamcode.commands.ElevatorReset;
 import org.firstinspires.ftc.teamcode.commands.ElevatorToSetpoint;
 import org.firstinspires.ftc.teamcode.commands.HangerDefaultCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeDefaultCommand;
@@ -19,7 +20,6 @@ import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.stealthrobotics.library.opmodes.StealthOpMode;
@@ -78,7 +78,7 @@ public abstract class Teleop extends StealthOpMode {
         //            arm.resetMotor(0.3);
         }
         arm.resetMotor();
-        //elevator.resetMotor();
+        elevator.innitresetMotor();
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
         // Automatically reset the elevator all the way down when we init
@@ -104,10 +104,25 @@ public abstract class Teleop extends StealthOpMode {
         mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
                 new SequentialCommandGroup(
                         new ArmToSetpoint(arm, 0),
-                        new ElevatorToSetpoint(elevator, -3050)
+                        new ElevatorToSetpoint(elevator, -3150)
                 ));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new ElevatorToSetpoint(elevator, 0));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new ElevatorToSetpoint(elevator, -200));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+                new SequentialCommandGroup(
+                        new ArmToSetpoint(arm, 0),
+                        new ElevatorToSetpoint(elevator, -1750)
+                ));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+                new SequentialCommandGroup(
+                        new ArmToSetpoint(arm, 0),
+                        new ElevatorToSetpoint(elevator, 0)
+                ));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
+                new SequentialCommandGroup(
+                        new ArmToSetpoint(arm, 0),
+                        new ElevatorToSetpoint(elevator, -200),
+                        new ArmToSetpoint(arm, -820)
+                ));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new ElevatorReset(elevator));
 
 
 
@@ -123,9 +138,8 @@ public abstract class Teleop extends StealthOpMode {
                         arm
                 )
         );
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new ArmToSetpoint(arm, 0));
+
         mechGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(new ArmToSetpoint(arm, 0));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new ArmToSetpoint(arm, -830));
         mechGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(new ArmToSetpoint(arm, -3400));
 
         bucket.setDefaultCommand(

@@ -12,13 +12,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ElevatorSubsystem extends SubsystemBase {
     private final DcMotorEx elevatorMotor;
 
-    private final DigitalChannel elevatorKill; // digital port 1 expansion hub 3
+    private final DigitalChannel elevatorKill; // digital port 2 expansion hub 3
 
     private final Telemetry telemetry;
 
     int targetPosition;
 
-    private final PIDController control = new PIDController(0.015, 0, 0);
+    private final PIDController control = new PIDController(0.01, 0, 0);
 
     boolean resetOnce = false;
 
@@ -65,22 +65,35 @@ public class ElevatorSubsystem extends SubsystemBase {
         return elevatorKill.getState();
     }
 
-    public void resetMotor(){
-        /*if (!checkSwitch() && !resetOnce)
+    public void innitresetMotor(){
+        if (checkSwitch() && !resetOnce)
         {
             elevatorMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
             elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             control.setSetPoint(0);
             resetOnce = true;
         }
-        else if (checkSwitch() && !resetOnce)
+        else if (!checkSwitch() && !resetOnce)
         {
             elevatorMotor.setPower(0.3);
-        }*/
+        }
+    }
 
-        elevatorMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        control.setSetPoint(0);
+    public void resetMotor(){
+        if (checkSwitch())
+        {
+            elevatorMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+            elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            control.setSetPoint(0);
+        }
+        else if (!checkSwitch())
+        {
+            elevatorMotor.setPower(0.5);
+        }
+    }
+
+    public void setPower(double power){
+        elevatorMotor.setPower(power);
     }
 
 

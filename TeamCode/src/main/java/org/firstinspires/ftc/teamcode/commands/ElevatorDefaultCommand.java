@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.command.button.Trigger;
 
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
 import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
 
 public class ElevatorDefaultCommand extends CommandBase {
     private final ElevatorSubsystem elevatorSubsystem;
@@ -26,10 +24,7 @@ public class ElevatorDefaultCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (B2.getAsBoolean())
-        {
-            elevatorSubsystem.resetMotor();
-        }
+
 
     }
 }
