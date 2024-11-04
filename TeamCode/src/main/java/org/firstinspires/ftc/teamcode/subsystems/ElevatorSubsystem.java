@@ -22,6 +22,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     boolean resetOnce = false;
 
+    boolean disableDrive = false;
+
     public ElevatorSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
         elevatorMotor = hardwareMap.get(DcMotorEx.class, "elevator");
         this.telemetry = telemetry;
@@ -54,7 +56,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void setAbsolutePosition(int position) {
-        control.setSetPoint(position);
+        if (!disableDrive)
+        {
+            control.setSetPoint(position);
+        }
     }
 
     public boolean atSetPoint(){
@@ -64,6 +69,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     public boolean checkSwitch(){
         return elevatorKill.getState();
     }
+
+    public void setDisableDrive() {disableDrive = !disableDrive;}
 
     public void innitresetMotor(){
         if (checkSwitch() && !resetOnce)

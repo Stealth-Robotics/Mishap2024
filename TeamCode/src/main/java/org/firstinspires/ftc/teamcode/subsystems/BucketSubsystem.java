@@ -13,6 +13,8 @@ public class BucketSubsystem extends SubsystemBase {
 
     private final Telemetry telemetry;
 
+    boolean disableDrive = false;
+
     public BucketSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
         bucketServo = hardwareMap.get(Servo.class, "bucket");
 
@@ -21,8 +23,13 @@ public class BucketSubsystem extends SubsystemBase {
 
     public void setPosition(double position)
     {
-        bucketServo.setPosition(position);
+        if (!disableDrive)
+        {
+            bucketServo.setPosition(position);
+        }
     }
+
+    public void setDisableDrive() {disableDrive = !disableDrive;}
 
     @Override
     public void periodic() {

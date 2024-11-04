@@ -104,9 +104,11 @@ public abstract class Teleop extends StealthOpMode {
         );
         driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
                 new SequentialCommandGroup(
-                    new
+                        new InstantCommand(() -> arm.setDisableDrive()),
+                        new InstantCommand(() -> bucket.setDisableDrive()),
+                        new InstantCommand(() -> elevator.setDisableDrive())
                 )
-        )
+        );
         mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
                 new SequentialCommandGroup(
                         new ArmToSetpoint(arm, 0),
@@ -146,7 +148,13 @@ public abstract class Teleop extends StealthOpMode {
         );
 
         mechGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(new ArmToSetpoint(arm, 0));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(new ArmToSetpoint(arm, -3400));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
+                new SequentialCommandGroup(
+                        new ArmToSetpoint(arm, 0),
+                        new ElevatorToSetpoint(elevator, 0),
+                        new ArmToSetpoint(arm, -3400)
+                )
+        );
 
         bucket.setDefaultCommand(
                 new BucketDefaultCommand(

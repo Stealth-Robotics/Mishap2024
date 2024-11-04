@@ -54,7 +54,10 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void setAbsolutePosition(int position) {
-        control.setSetPoint(position);
+        if(!disableDrive)
+        {
+            control.setSetPoint(position);
+        }
     }
 
     public boolean checkSwitch(){
