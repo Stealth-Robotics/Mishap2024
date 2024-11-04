@@ -19,6 +19,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     int targetPosition;
 
+    boolean disableDrive = false;
+
     private final PIDController control = new PIDController(0.005, 0, 0);
 
     boolean resetOnce = false;
@@ -58,6 +60,8 @@ public class ArmSubsystem extends SubsystemBase {
     public boolean checkSwitch(){
         return armKill.getState();
     }
+
+    public void setDisableDrive() {disableDrive = !disableDrive;}
 
     public void resetMotor(){
         if (checkSwitch() && !resetOnce)
