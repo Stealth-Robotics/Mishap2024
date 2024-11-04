@@ -44,7 +44,7 @@ public class BucketDefaultCommand extends CommandBase {
         }
         else if (y2.getAsBoolean())
         {
-            position = 0.055;
+            position = 0.06;
         }
         bucketSubsystem.setPosition(position);
     }

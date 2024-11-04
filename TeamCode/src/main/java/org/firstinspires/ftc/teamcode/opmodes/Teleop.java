@@ -58,6 +58,10 @@ public abstract class Teleop extends StealthOpMode {
         bucket = new BucketSubsystem(hardwareMap, telemetry);
         hanger = new HangerSubsystem(hardwareMap, telemetry);
         register(elevator, intake, arm, bucket, hanger);
+        arm.resetMotor();
+        elevator.innitresetMotor();
+        driveGamepad = new GamepadEx(gamepad1);
+        mechGamepad = new GamepadEx(gamepad2);
 
         /*for(int i=0;i<1000;i++)
         {
@@ -77,10 +81,7 @@ public abstract class Teleop extends StealthOpMode {
  //  Jim was here
         //            arm.resetMotor(0.3);
         }
-        arm.resetMotor();
-        elevator.innitresetMotor();
-        driveGamepad = new GamepadEx(gamepad1);
-        mechGamepad = new GamepadEx(gamepad2);
+
         // Automatically reset the elevator all the way down when we init
 //        schedule(new ResetElevatorCommand(elevator));
 
@@ -120,7 +121,7 @@ public abstract class Teleop extends StealthOpMode {
                 new SequentialCommandGroup(
                         new ArmToSetpoint(arm, 0),
                         new ElevatorToSetpoint(elevator, -200),
-                        new ArmToSetpoint(arm, -820)
+                        new ArmToSetpoint(arm, -850)
                 ));
         mechGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new ElevatorReset(elevator));
 
