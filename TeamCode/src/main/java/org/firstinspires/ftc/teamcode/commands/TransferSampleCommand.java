@@ -7,6 +7,14 @@ import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
+/*
+Glenn
+Example of "Command" code that uses multiple sub-systems (pieces of hardware).
+In this case it is the outline to do the sample transfer steps from intake to getting ready to drop in bucket.
+
+This is not meant to be robot-ready code but instead for testing and learning purposes.
+ */
+
 public class TransferSampleCommand extends CommandBase {
     private final ElevatorSubsystem elevatorSubsystem;
     private final ArmSubsystem armSubsysterm;
