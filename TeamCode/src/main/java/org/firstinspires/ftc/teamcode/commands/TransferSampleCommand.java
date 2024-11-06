@@ -17,7 +17,7 @@ This is not meant to be robot-ready code but instead for testing and learning pu
 
 public class TransferSampleCommand extends CommandBase {
     private final ElevatorSubsystem elevatorSubsystem;
-    private final ArmSubsystem armSubsysterm;
+    private final ArmSubsystem armSubsystem;
     private final BucketSubsystem bucketSubsystem;
 
     private final Telemetry telemetry;
@@ -30,7 +30,7 @@ public class TransferSampleCommand extends CommandBase {
         // Create instances of all the hardware we are doing to use
 
         this.elevatorSubsystem = elevatorSubsystem;
-        this.armSubsysterm = armSubsysterm;
+        this.armSubsystem = armSubsysterm;
         this.bucketSubsystem = bucketSubsystem;
 
         // Register which sub-systems this Command uses with the Scheduler
