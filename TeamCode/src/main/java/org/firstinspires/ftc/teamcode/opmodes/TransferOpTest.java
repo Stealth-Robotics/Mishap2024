@@ -24,8 +24,8 @@ transfer steps from intake to getting ready to drop in bucket.
 
 This is not meant to be robot-ready code but instead for testing and learning purposes.
  */
-
-public abstract class TransferOpTest extends StealthOpMode {
+@TeleOp(name = "transfer test")
+public class TransferOpTest extends StealthOpMode {
 
     // Subsystems
 
@@ -48,6 +48,7 @@ public abstract class TransferOpTest extends StealthOpMode {
 
     @Override
     public void initialize() {
+        telemetry.addData("entered init", "yes");
         // Setup all of your subsystems by creating one instance of each subsystem class
         elevator = new ElevatorSubsystem(hardwareMap, telemetry);
         intake = new IntakeSubsystem(hardwareMap);
@@ -58,6 +59,7 @@ public abstract class TransferOpTest extends StealthOpMode {
         register(elevator, intake, arm, bucket);
 
         driveGamepad = new GamepadEx(gamepad1);
+
         mechGamepad = new GamepadEx(gamepad2);
 
         /*

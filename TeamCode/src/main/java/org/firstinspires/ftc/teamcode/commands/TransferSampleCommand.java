@@ -66,5 +66,18 @@ public class TransferSampleCommand extends CommandBase {
     @Override
     public void execute() {
         // Nothing needed here for this command as we did everything in init()
+        telemetry.addData("TransferCmd", "*** Start Sequence ***");
+
+        // Move elevator to transfer height
+        telemetry.addData("TransferCmd", "Move Elevator to Xfer height");
+        //  elevatorSubsystem.setPosition(0.7);
+
+        // pivot arm forward
+        telemetry.addData("TransferCmd", "Move Pivot Arm forward");
+
+        // move bucket to transport position
+        telemetry.addData("TransferCmd", "Move bucket to xfer position");
+
+        telemetry.addData("TransferCmd", "*** End Sequence ***");
     }
 }
