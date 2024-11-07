@@ -25,7 +25,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
-public abstract class Teleop extends StealthOpMode {
+import java.util.function.BooleanSupplier;
+
+@TeleOp(name = "teleop")
+public class Teleop extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive; // Ports are front left: 0, back left: 1, front right: 2, back right: 3, all on Control hub. (disabled for testing)
@@ -119,16 +122,14 @@ public abstract class Teleop extends StealthOpMode {
                         new ArmToSetpoint(arm, 0),
                         new ElevatorToSetpoint(elevator, -1750)
                 ));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
-                new SequentialCommandGroup(
-                        new ArmToSetpoint(arm, 0),
-                        new ElevatorToSetpoint(elevator, 0)
-                ));
+
+
         mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
                 new SequentialCommandGroup(
                         new ArmToSetpoint(arm, 0),
                         new ElevatorToSetpoint(elevator, -200),
-                        new ArmToSetpoint(arm, -850)
+                        new ArmToSetpoint(arm, -850),
+                        new BucketDefaultCommand(bucket, () -> false, () -> false, ()-> true)
                 ));
         mechGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new ElevatorReset(elevator));
 
