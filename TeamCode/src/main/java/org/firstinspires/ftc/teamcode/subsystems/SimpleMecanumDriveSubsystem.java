@@ -1,13 +1,8 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
-
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -18,32 +13,32 @@ import org.stealthrobotics.library.AutoToTeleStorage;
  * This is the most basic Mecanum subsystem you can have, and provides simple methods to drive and stop.
  */
 public class SimpleMecanumDriveSubsystem extends SubsystemBase {
-    public final DcMotor leftFrontDrive;
-    public final DcMotor leftRearDrive;
-    public final DcMotor rightFrontDrive;
-    public final DcMotor rightRearDrive;
+    public final DcMotor leftFront;
+    public final DcMotor leftBack;
+    public final DcMotor rightFront;
+    public final DcMotor rightBack;
     final IMU imu;
     boolean fieldcentric = false;
     boolean slowMode = false;
     double headingOffset = 0.0;
 
     public SimpleMecanumDriveSubsystem(HardwareMap hardwareMap) {
-        leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
-        leftRearDrive = hardwareMap.get(DcMotor.class, "leftRearDrive");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
-        rightRearDrive = hardwareMap.get(DcMotor.class, "rightRearDrive");
+        leftFront = hardwareMap.get(DcMotor.class, "left_front");
+        leftBack = hardwareMap.get(DcMotor.class, "left_back");
+        rightFront = hardwareMap.get(DcMotor.class, "right_front");
+        rightBack = hardwareMap.get(DcMotor.class, "right_back");
 
-        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftRearDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightRearDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftRearDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightRearDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        leftBack.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        rightBack.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Retrieve the IMU from the hardware map
         imu = hardwareMap.get(IMU.class, "imu");
@@ -127,21 +122,21 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
             rightRearDrivePower *= 0.5;
         }
 
-        leftFrontDrive.setPower(leftFrontDrivePower);
-        leftRearDrive.setPower(leftRearDrivePower);
-        rightFrontDrive.setPower(rightFrontDrivePower);
-        rightRearDrive.setPower(rightRearDrivePower);
+        leftFront.setPower(leftFrontDrivePower);
+        leftBack.setPower(leftRearDrivePower);
+        rightFront.setPower(rightFrontDrivePower);
+        rightBack.setPower(rightRearDrivePower);
     }
 
     public void stop(){
-        leftFrontDrive.setPower(0);
-        leftRearDrive.setPower(0);
-        rightFrontDrive.setPower(0);
-        rightRearDrive.setPower(0);
+        leftFront.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        rightBack.setPower(0);
     }
 
     public int getTicks(){
-        return leftFrontDrive.getCurrentPosition();
+        return leftFront.getCurrentPosition();
     }
 
     @Override
