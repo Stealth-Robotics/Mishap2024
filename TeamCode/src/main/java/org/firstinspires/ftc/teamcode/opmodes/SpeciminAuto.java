@@ -49,9 +49,9 @@ public class SpeciminAuto extends StealthOpMode {
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         arm = new ArmSubsystem(hardwareMap, telemetry);
         claw = new ClawSubsystem(hardwareMap, telemetry);
-        
+
         arm.resetMotor();
-        new InstantCommand(() -> claw.setPosition(-1));
+        claw.setPosition(-1);
 
 
     }
@@ -63,7 +63,7 @@ public class SpeciminAuto extends StealthOpMode {
                 new ArmToSetpoint(arm,-2850),
                 new InstantCommand(() -> claw.setPosition(1)),
                 new WaitCommand(3000),
-                new DriveBackwardInches(telemetry, drive, 13.0),
+                new DriveBackwardInches(telemetry, drive, 10.0),
                 new ArmToSetpoint(arm,0),
 
                 new TurnToDegrees(telemetry, drive, -90),

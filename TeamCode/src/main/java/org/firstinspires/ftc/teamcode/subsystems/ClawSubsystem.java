@@ -26,6 +26,7 @@ public class ClawSubsystem extends SubsystemBase {
         if (!disableDrive)
         {
             clawServo.setPosition(position);
+
         }
     }
 
