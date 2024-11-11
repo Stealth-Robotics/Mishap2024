@@ -1,26 +1,27 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.commands.ArmToSetpoint;
 import org.firstinspires.ftc.teamcode.commands.DriveBackwardInches;
 import org.firstinspires.ftc.teamcode.commands.TurnToDegrees;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
-@Autonomous(name="JimsAuto", group="zz jims")
-public class JimsAuto extends StealthOpMode {
+@Autonomous(name="SpeciminAuto", group="red auto", preselectTeleOp = "BLUE | Tele-Op")
+public class SpeciminAuto extends StealthOpMode {
 
-    // Subsystems
-    SimpleMecanumDriveSubsystem drive; // Ports are front left: 0, back left: 1, front right: 2, back right: 3, all on Control hub. (disabled for testing)
+    SimpleMecanumDriveSubsystem drive; // Ports are front left: 0, back left: 1, front right: 2, back right: 3, all on Control hub.
     ElevatorSubsystem elevator; // motor 2 exp hub 3
 
     IntakeSubsystem intake; // servo 0
@@ -33,43 +34,43 @@ public class JimsAuto extends StealthOpMode {
 
     HangerSubsystem hanger; // motor 0 exp hub 3
 
+    ClawSubsystem claw;
+
+
+
+
+
+
+
+
+
     @Override
     public void initialize() {
-        // Setup and register all of your subsystems here
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
-        elevator = new ElevatorSubsystem(hardwareMap, telemetry);
-        //camera = new CameraSubsystem(hardwareMap);
-        intake = new IntakeSubsystem(hardwareMap);
         arm = new ArmSubsystem(hardwareMap, telemetry);
-        bucket = new BucketSubsystem(hardwareMap, telemetry);
-        hanger = new HangerSubsystem(hardwareMap, telemetry);
-        register(elevator, intake, arm, bucket, hanger);
+        claw = new ClawSubsystem(hardwareMap, telemetry);
+        
         arm.resetMotor();
-        elevator.innitresetMotor();
-    }
+        new InstantCommand(() -> claw.setPosition(-1));
 
-    /**
-     * Ideally your red vs. blue opmodes are nothing more than this. Keep code shared between
-     * them, and take different actions based on the alliance color.
-     *
-     * @see org.stealthrobotics.library.Alliance
-     */
 
-    @Override
-    public void whileWaitingToStart() {
-        CommandScheduler.getInstance().run();
     }
 
     @Override
     public Command getAutoCommand() {
         return new SequentialCommandGroup(
-                new DriveBackwardInches(telemetry, drive,10.0),
-                new WaitCommand(500),
-                new DriveBackwardInches(telemetry, drive,-10.0),
-                new WaitCommand(500),
-                new TurnToDegrees(telemetry, drive,90.0),
-                new WaitCommand(500),
-                new TurnToDegrees(telemetry, drive,-90.0)
+                new DriveBackwardInches(telemetry, drive,-16.0),
+                new ArmToSetpoint(arm,-2850),
+                new InstantCommand(() -> claw.setPosition(1)),
+                new WaitCommand(3000),
+                new DriveBackwardInches(telemetry, drive, 13.0),
+                new ArmToSetpoint(arm,0),
+
+                new TurnToDegrees(telemetry, drive, -90),
+                new DriveBackwardInches(telemetry, drive, -27)
+
+
+
         );
     }
 }

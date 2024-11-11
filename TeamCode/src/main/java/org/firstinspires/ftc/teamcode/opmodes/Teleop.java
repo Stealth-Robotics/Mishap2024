@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.commands.HangerDefaultCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeDefaultCommand;
 import org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem;
 //import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
@@ -31,8 +32,10 @@ import java.util.function.BooleanSupplier;
 public class Teleop extends StealthOpMode {
 
     // Subsystems
-    SimpleMecanumDriveSubsystem drive; // Ports are front left: 0, back left: 1, front right: 2, back right: 3, all on Control hub. (disabled for testing)
+    SimpleMecanumDriveSubsystem drive; // Ports are front left: 0, back left: 1, front right: 2, back right: 3, all on Control hub.
     ElevatorSubsystem elevator; // motor 2 exp hub 3
+
+
 
     IntakeSubsystem intake; // servo 0
 
@@ -43,6 +46,8 @@ public class Teleop extends StealthOpMode {
     BucketSubsystem bucket; // servo hub 1 expansion hub 3
 
     HangerSubsystem hanger; // motor 0 exp hub 3
+
+    ClawSubsystem claw; // servo hub 2 expansion hub 3
 
 
 
@@ -56,12 +61,13 @@ public class Teleop extends StealthOpMode {
         // Setup and register all of your subsystems here
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         elevator = new ElevatorSubsystem(hardwareMap, telemetry);
+        claw = new ClawSubsystem(hardwareMap, telemetry);
         //camera = new CameraSubsystem(hardwareMap);
         intake = new IntakeSubsystem(hardwareMap);
         arm = new ArmSubsystem(hardwareMap, telemetry);
         bucket = new BucketSubsystem(hardwareMap, telemetry);
         hanger = new HangerSubsystem(hardwareMap, telemetry);
-        register(elevator, intake, arm, bucket, hanger);
+        register(elevator, intake, arm, bucket, hanger, claw);
         arm.resetMotor();
         elevator.innitresetMotor();
         driveGamepad = new GamepadEx(gamepad1);
@@ -98,24 +104,25 @@ public class Teleop extends StealthOpMode {
                         () -> driveGamepad.gamepad.right_stick_x
                 )
         );
-
         elevator.setDefaultCommand(
                 new ElevatorDefaultCommand (
                         elevator,
                         () -> mechGamepad.getGamepadButton(GamepadKeys.Button.B).get()
                 )
         );
-        driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
+        driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(
                 new SequentialCommandGroup(
                         new InstantCommand(() -> arm.setDisableDrive()),
                         new InstantCommand(() -> bucket.setDisableDrive()),
                         new InstantCommand(() -> elevator.setDisableDrive())
                 )
         );
+
         mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
                 new SequentialCommandGroup(
                         new ArmToSetpoint(arm, 0),
                         new ElevatorToSetpoint(elevator, -3150)
+
                 ));
         mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
                 new SequentialCommandGroup(
@@ -129,8 +136,40 @@ public class Teleop extends StealthOpMode {
                         new ArmToSetpoint(arm, 0),
                         new ElevatorToSetpoint(elevator, -200),
                         new ArmToSetpoint(arm, -850),
-                        new BucketDefaultCommand(bucket, () -> false, () -> false, ()-> true)
+                        new BucketDefaultCommand( // sets to top position
+                                bucket,
+                                () -> false,
+                                () -> false,
+                                ()-> true
+                        )
                 ));
+
+        driveGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
+                new InstantCommand(() -> claw.setPosition(-1))
+
+        );
+        driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
+                new InstantCommand(() -> claw.setPosition(1))
+        );
+        driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new ArmToSetpoint(arm, 0)
+        );
+        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new SequentialCommandGroup(
+                        new ArmToSetpoint(arm, 0),
+                        new ElevatorToSetpoint(elevator, 0),
+                        new InstantCommand(() -> bucket.setPosition(0.17)),
+                        new ArmToSetpoint(arm, -2700)
+                )
+        );
+        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                new SequentialCommandGroup(
+                        new ArmToSetpoint(arm, 0),
+                        new ElevatorToSetpoint(elevator, 0),
+                        new InstantCommand(() -> bucket.setPosition(0.17)),
+                        new ArmToSetpoint(arm, -2850)
+                )
+        );
         mechGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new ElevatorReset(elevator));
 
 
@@ -148,14 +187,32 @@ public class Teleop extends StealthOpMode {
                 )
         );
 
-        mechGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(new ArmToSetpoint(arm, 0));
+
         mechGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
                 new SequentialCommandGroup(
                         new ArmToSetpoint(arm, 0),
                         new ElevatorToSetpoint(elevator, 0),
+                        new InstantCommand(() -> bucket.setPosition(0.17)),
                         new ArmToSetpoint(arm, -3400)
                 )
         );
+        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+                new SequentialCommandGroup(
+                        new ArmToSetpoint(arm, 0),
+                        new ElevatorToSetpoint(elevator, 0),
+                        new InstantCommand(() -> bucket.setPosition(0.17))
+
+                )
+        );
+        mechGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
+                new SequentialCommandGroup(
+
+                        new InstantCommand(() -> bucket.setPosition(0.17)),
+                        new ArmToSetpoint(arm, 0)
+
+                )
+        );
+
 
         bucket.setDefaultCommand(
                 new BucketDefaultCommand(

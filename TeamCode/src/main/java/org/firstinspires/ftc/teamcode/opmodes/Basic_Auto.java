@@ -13,15 +13,15 @@ import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @Autonomous(name="Auto", group="red auto", preselectTeleOp = "BLUE | Tele-Op")
-public class Auto extends StealthOpMode {
+public class Basic_Auto extends StealthOpMode {
 
-    SimpleMecanumDriveSubsystem drive; // Ports are front left: 0, back left: 1, front right: 2, back right: 3, all on Control hub. (disabled for testing)
+    SimpleMecanumDriveSubsystem drive; // Ports are front left: 0, back left: 1, front right: 2, back right: 3, all on Control hub.
     ElevatorSubsystem elevator; // motor 2 exp hub 3
 
     IntakeSubsystem intake; // servo 0
