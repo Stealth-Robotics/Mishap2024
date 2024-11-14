@@ -5,13 +5,13 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 
-public class StrafeLeftInches extends CommandBase {
+public class StrafeRightInches extends CommandBase {
 
     private final double inches;
     final SimpleMecanumDriveSubsystem drive;
 
     final Telemetry telemetry;
-    public StrafeLeftInches(Telemetry telemetry, SimpleMecanumDriveSubsystem drive, double inches){
+    public StrafeRightInches(Telemetry telemetry, SimpleMecanumDriveSubsystem drive, double inches){
 
         this.inches = inches;
         this.drive = drive;
@@ -31,17 +31,17 @@ public class StrafeLeftInches extends CommandBase {
         telemetry.addData("Auto Inches",this.inches);
         telemetry.addData("Auto Pos",this.drive.getOdomY());
         telemetry.update();
-
+        // left is negative, right is positive, both are Y for otos
         if(this.inches<0) {
-            drive.drive(.0,.4,0);
-            if(this.drive.getOdomX()<this.inches) {
+            drive.drive(.0,-.4,0);
+            if(this.drive.getOdomY()<this.inches) {
                 drive.drive(0,0,0);
                 return true;
             }
         }
         else {
-            drive.drive(.0,-.4,0);
-            if(this.drive.getOdomX()>this.inches) {
+            drive.drive(.0,.4,0);
+            if(this.drive.getOdomY()>this.inches) {
                 drive.drive(0,0,0);
                 return true;
             }

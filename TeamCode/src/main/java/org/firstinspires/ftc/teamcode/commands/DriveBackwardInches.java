@@ -32,6 +32,7 @@ public class DriveBackwardInches extends CommandBase {
         telemetry.addData("Auto Pos",this.drive.getOdomX());
         telemetry.update();
 
+        // Forward is negitive X, Backwards is positive X for otos
         if(this.inches<0) {
             drive.drive(.4,0,0);
             if(this.drive.getOdomX()<this.inches) {

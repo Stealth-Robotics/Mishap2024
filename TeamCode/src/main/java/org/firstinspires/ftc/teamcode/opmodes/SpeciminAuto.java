@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.ArmToSetpoint;
 import org.firstinspires.ftc.teamcode.commands.DriveBackwardInches;
-import org.firstinspires.ftc.teamcode.commands.TurnToDegrees;
+import org.firstinspires.ftc.teamcode.commands.StrafeRightInches;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
@@ -65,12 +65,7 @@ public class SpeciminAuto extends StealthOpMode {
                 new WaitCommand(3000),
                 new DriveBackwardInches(telemetry, drive, 10.0),
                 new ArmToSetpoint(arm,0),
-
-                new TurnToDegrees(telemetry, drive, -90),
-                new DriveBackwardInches(telemetry, drive, -27)
-
-
-
+                new StrafeRightInches(telemetry, drive, 25.0)
         );
     }
 }
