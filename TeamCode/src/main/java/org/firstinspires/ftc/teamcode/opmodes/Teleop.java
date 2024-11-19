@@ -154,20 +154,20 @@ public class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new ArmToSetpoint(arm, 0)
         );
-        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new SequentialCommandGroup(
-                        new ArmToSetpoint(arm, 0),
-                        new ElevatorToSetpoint(elevator, 0),
-                        new InstantCommand(() -> bucket.setPosition(0.17)),
-                        new ArmToSetpoint(arm, -2700)
-                )
-        );
         driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(
                 new SequentialCommandGroup(
                         new ArmToSetpoint(arm, 0),
                         new ElevatorToSetpoint(elevator, 0),
                         new InstantCommand(() -> bucket.setPosition(0.17)),
-                        new ArmToSetpoint(arm, -2850)
+                        new ArmToSetpoint(arm, -2805) //TODO make this pick up specimins
+                )
+        );
+        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new SequentialCommandGroup(
+                        new ArmToSetpoint(arm, 0),
+                        new ElevatorToSetpoint(elevator, 0),
+                        new InstantCommand(() -> bucket.setPosition(0.17)),
+                        new ArmToSetpoint(arm, -3195)
                 )
         );
         mechGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new ElevatorReset(elevator));

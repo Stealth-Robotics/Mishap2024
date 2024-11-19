@@ -59,8 +59,8 @@ public class SpeciminAuto extends StealthOpMode {
     @Override
     public Command getAutoCommand() {
         return new SequentialCommandGroup(
-                new DriveBackwardInches(telemetry, drive,-16.0),
-                new ArmToSetpoint(arm,-2850),
+                new DriveBackwardInches(telemetry, drive,-14.0),
+                new ArmToSetpoint(arm,-3195),
                 new InstantCommand(() -> claw.setPosition(1)),
                 new ArmToSetpoint(arm, 0),
                 new DriveBackwardInches(telemetry, drive, 10.0),

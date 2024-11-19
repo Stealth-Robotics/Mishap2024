@@ -115,6 +115,10 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio, but only when
         // at least one is out of the range [-1, 1]
+
+
+
+
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rotation), 1);
         double leftFrontDrivePower = (y + x + rotation) / denominator;
         double leftRearDrivePower = (y - x + rotation) / denominator;
