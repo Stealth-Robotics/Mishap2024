@@ -62,9 +62,8 @@ public class SpeciminAuto extends StealthOpMode {
                 new DriveBackwardInches(telemetry, drive,-16.0),
                 new ArmToSetpoint(arm,-2850),
                 new InstantCommand(() -> claw.setPosition(1)),
-                new WaitCommand(3000),
+                new ArmToSetpoint(arm, 0),
                 new DriveBackwardInches(telemetry, drive, 10.0),
-                new ArmToSetpoint(arm,0),
                 new StrafeRightInches(telemetry, drive, 25.0)
         );
     }
