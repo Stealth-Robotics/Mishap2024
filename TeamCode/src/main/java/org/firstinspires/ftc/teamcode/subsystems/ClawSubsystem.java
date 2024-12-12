@@ -11,22 +11,29 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ClawSubsystem extends SubsystemBase {
     private final Servo clawServo;
 
+    private final Servo clawServo2;
+
     private final Telemetry telemetry;
 
     boolean disableDrive = false;
 
     public ClawSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
         clawServo = hardwareMap.get(Servo.class, "claw");
+        clawServo2 = hardwareMap.get(Servo.class, "claw2");
+
 
         this.telemetry = telemetry;
+
+        clawServo.setPosition(0);
+        clawServo2.setPosition(0);
     }
 
     public void setPosition(double position)
     {
         if (!disableDrive)
         {
+            clawServo2.setPosition(position);
             clawServo.setPosition(position);
-
         }
     }
 
@@ -34,7 +41,7 @@ public class ClawSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("bucket", clawServo.getPosition());
+        telemetry.addData("claw", clawServo.getPosition());
     }
 
 }

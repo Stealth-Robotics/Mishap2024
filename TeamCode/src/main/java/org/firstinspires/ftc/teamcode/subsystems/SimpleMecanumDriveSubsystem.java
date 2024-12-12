@@ -69,7 +69,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         // https://gm0.org/en/latest/docs/software/mecanum-drive.html
 
         double y = -leftSickY; // Remember, this is reversed!
-        double x = -leftStickX * 1.1; // Counteract imperfect strafing
+        double x = leftStickX * 1.1; // Counteract imperfect strafing
         double rotation = rightStickX;
         if (fieldcentric) {
             // Read inverse IMU heading, as the IMU heading is CW positive

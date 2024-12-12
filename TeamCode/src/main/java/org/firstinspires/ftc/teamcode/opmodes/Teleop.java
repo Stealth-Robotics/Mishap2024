@@ -47,7 +47,7 @@ public class Teleop extends StealthOpMode {
 
     HangerSubsystem hanger; // motor 0 exp hub 3
 
-    ClawSubsystem claw; // servo hub 2 expansion hub 3
+    ClawSubsystem claw; // servo hub 2 expansion hub 3 & servo hub 3 expansion hub
 
 
 
@@ -136,12 +136,7 @@ public class Teleop extends StealthOpMode {
                         new ArmToSetpoint(arm, 0),
                         new ElevatorToSetpoint(elevator, -200),
                         new ArmToSetpoint(arm, -850),
-                        new BucketDefaultCommand( // sets to top position
-                                bucket,
-                                () -> false,
-                                () -> false,
-                                ()-> true
-                        )
+                        new InstantCommand(() -> bucket.setPosition(0.06))
                 ));
 
         driveGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
@@ -212,17 +207,16 @@ public class Teleop extends StealthOpMode {
 
                 )
         );
+        mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                new SequentialCommandGroup(
 
+                        new InstantCommand(() -> bucket.setPosition(0.0))
 
-        bucket.setDefaultCommand(
-                new BucketDefaultCommand(
-                        bucket,
-                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.A).get(),
-                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.X).get(),
-                        () -> mechGamepad.getGamepadButton(GamepadKeys.Button.Y).get()
 
                 )
         );
+
+
         hanger.setDefaultCommand(
                 new HangerDefaultCommand(
                         hanger,
