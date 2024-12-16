@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
-@Autonomous(name="Auto", group="red auto", preselectTeleOp = "BLUE | Tele-Op")
+@Autonomous(name="Sample_No_Clip", group="red auto", preselectTeleOp = "BLUE | Tele-Op")
 public class Sample_No_Clip_Auto extends StealthOpMode {
 
     SimpleMecanumDriveSubsystem drive; // Ports are front left: 0, back left: 1, front right: 2, back right: 3, all on Control hub.
@@ -53,13 +53,9 @@ public class Sample_No_Clip_Auto extends StealthOpMode {
     @Override
     public Command getAutoCommand() {
         return new SequentialCommandGroup(
-                new DriveBackwardInches(telemetry, drive,10.0),
-                new WaitCommand(500),
-                new DriveBackwardInches(telemetry, drive,-10.0),
-                new WaitCommand(500),
-                new TurnToDegrees(telemetry, drive,90.0),
-                new WaitCommand(500),
-                new TurnToDegrees(telemetry, drive,-90.0)
+                new DriveBackwardInches(telemetry, drive,-15.0),
+                new TurnToDegrees(telemetry, drive, 45)
+
         );
     }
 }

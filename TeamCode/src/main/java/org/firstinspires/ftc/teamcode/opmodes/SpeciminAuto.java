@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.ArmToSetpoint;
 import org.firstinspires.ftc.teamcode.commands.DriveBackwardInches;
+import org.firstinspires.ftc.teamcode.commands.ElevatorToSetpoint;
 import org.firstinspires.ftc.teamcode.commands.StrafeRightInches;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem;
@@ -49,22 +50,49 @@ public class SpeciminAuto extends StealthOpMode {
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         arm = new ArmSubsystem(hardwareMap, telemetry);
         claw = new ClawSubsystem(hardwareMap, telemetry);
+        elevator = new ElevatorSubsystem(hardwareMap, telemetry);
+        bucket = new BucketSubsystem(hardwareMap, telemetry);
 
+        new InstantCommand(() -> bucket.setPosition(0.17));
         arm.resetMotor();
         claw.setPosition(-1);
 
 
     }
+    /*
+    Move right
+    move elevator up
+    move right a bit
+    move elevator down a little
+    releace side gripper
+    move left a bit
+    move elevator down
+    move backwards and/or right
+     */
 
     @Override
     public Command getAutoCommand() {
         return new SequentialCommandGroup(
-                new DriveBackwardInches(telemetry, drive,-14.0),
+                /*new DriveBackwardInches(telemetry, drive,-14.0),
                 new ArmToSetpoint(arm,-3195),
                 new InstantCommand(() -> claw.setPosition(1)),
                 new ArmToSetpoint(arm, 0),
                 new DriveBackwardInches(telemetry, drive, 10.0),
-                new StrafeRightInches(telemetry, drive, 25.0)
+                new StrafeRightInches(telemetry, drive, 25.0)*/
+
+
+
+                new StrafeRightInches(telemetry,drive,24),
+                new ElevatorToSetpoint(elevator, -1300),
+                new StrafeRightInches(telemetry, drive, 2),
+                new ElevatorToSetpoint(elevator, -900),
+                new InstantCommand(()-> claw.setPosition(1)),
+                new StrafeRightInches(telemetry, drive, -2),
+                new ElevatorToSetpoint(elevator, 0),
+                new StrafeRightInches(telemetry,drive,-24),
+                new DriveBackwardInches(telemetry,drive, 50)
+
+
         );
     }
 }
