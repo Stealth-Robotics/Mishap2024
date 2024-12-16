@@ -2,10 +2,13 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
 
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 
+import org.firstinspires.ftc.teamcode.commands.ArmToSetpoint;
 import org.firstinspires.ftc.teamcode.commands.DriveBackwardInches;
+import org.firstinspires.ftc.teamcode.commands.ElevatorToSetpoint;
 import org.firstinspires.ftc.teamcode.commands.TurnToDegrees;
 import org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem;
 
@@ -54,7 +57,30 @@ public class Sample_No_Clip_Auto extends StealthOpMode {
     public Command getAutoCommand() {
         return new SequentialCommandGroup(
                 new DriveBackwardInches(telemetry, drive,-15.0),
-                new TurnToDegrees(telemetry, drive, 45)
+                new TurnToDegrees(telemetry, drive, 45),
+
+                new WaitCommand(500),
+                // add the bucket and elevator set up here
+                new SequentialCommandGroup(
+                        new ArmToSetpoint(arm, 0),
+                        new ElevatorToSetpoint(elevator, -200),
+                        new ArmToSetpoint(arm, -850),
+                        new InstantCommand(() -> bucket.setPosition(0.06))
+                ),
+
+                    new WaitCommand(500),
+
+                    new SequentialCommandGroup(
+                        new ArmToSetpoint(arm, 0),
+                        new ElevatorToSetpoint(elevator, -3150)
+
+                ),
+
+
+            new DriveBackwardInches(telemetry, drive, 5),
+            new TurnToDegrees(telemetry, drive, 45),
+            new DriveBackwardInches(telemetry, drive, 10),
+            new TurnToDegrees(telemetry, drive, -90)
 
         );
     }
