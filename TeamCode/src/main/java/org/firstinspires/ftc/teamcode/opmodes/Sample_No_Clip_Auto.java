@@ -9,9 +9,11 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.commands.ArmToSetpoint;
 import org.firstinspires.ftc.teamcode.commands.DriveBackwardInches;
 import org.firstinspires.ftc.teamcode.commands.ElevatorToSetpoint;
+import org.firstinspires.ftc.teamcode.commands.StrafeRightInches;
 import org.firstinspires.ftc.teamcode.commands.TurnToDegrees;
 import org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem;
 
+import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
@@ -38,6 +40,8 @@ public class Sample_No_Clip_Auto extends StealthOpMode {
 
     HangerSubsystem hanger; // motor 0 exp hub 3
 
+    ClawSubsystem claw;
+
 
 
 
@@ -49,6 +53,14 @@ public class Sample_No_Clip_Auto extends StealthOpMode {
     @Override
     public void initialize() {
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
+        arm = new ArmSubsystem(hardwareMap, telemetry);
+        claw = new ClawSubsystem(hardwareMap, telemetry);
+        elevator = new ElevatorSubsystem(hardwareMap, telemetry);
+        bucket = new BucketSubsystem(hardwareMap, telemetry);
+        intake = new IntakeSubsystem(hardwareMap);
+        new InstantCommand(() -> bucket.setPosition(0.17));
+        arm.resetMotor();
+        claw.setPosition(-1);
 
 
     }
@@ -56,31 +68,26 @@ public class Sample_No_Clip_Auto extends StealthOpMode {
     @Override
     public Command getAutoCommand() {
         return new SequentialCommandGroup(
-                new DriveBackwardInches(telemetry, drive,-15.0),
-                new TurnToDegrees(telemetry, drive, 45),
-
+                new StrafeRightInches(telemetry,drive,23),
+                new ElevatorToSetpoint(elevator, -1300),
+                new StrafeRightInches(telemetry, drive, 2),
+                new ElevatorToSetpoint(elevator, -900),
+                new InstantCommand(()-> claw.setPosition(1)),
                 new WaitCommand(500),
-                // add the bucket and elevator set up here
-                new SequentialCommandGroup(
-                        new ArmToSetpoint(arm, 0),
-                        new ElevatorToSetpoint(elevator, -200),
-                        new ArmToSetpoint(arm, -850),
-                        new InstantCommand(() -> bucket.setPosition(0.06))
-                ),
-
-                    new WaitCommand(500),
-
-                    new SequentialCommandGroup(
-                        new ArmToSetpoint(arm, 0),
-                        new ElevatorToSetpoint(elevator, -3150)
-
-                ),
-
-
-            new DriveBackwardInches(telemetry, drive, 5),
-            new TurnToDegrees(telemetry, drive, 45),
-            new DriveBackwardInches(telemetry, drive, 10),
-            new TurnToDegrees(telemetry, drive, -90)
+                new StrafeRightInches(telemetry, drive, -2),
+                new ElevatorToSetpoint(elevator, 0),
+                //new TurnToDegrees(telemetry, drive, -drive.getOdomHeading()),
+                new DriveBackwardInches(telemetry, drive, -15),
+                new TurnToDegrees(telemetry, drive, -15),
+                new DriveBackwardInches(telemetry, drive, -1.5),
+                new ArmToSetpoint(arm, -3400),
+                new InstantCommand(() -> intake.setPower(1.0)),
+                new WaitCommand(1000),
+                new InstantCommand(() -> intake.setPower(0.1)),
+                new TurnToDegrees(telemetry, drive, 15),
+                new ArmToSetpoint(arm, 0),
+                new DriveBackwardInches(telemetry, drive, -10),
+                new TurnToDegrees(telemetry, drive, 45)
 
         );
     }
