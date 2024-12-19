@@ -68,6 +68,8 @@ public class Sample_No_Clip_Auto extends StealthOpMode {
     @Override
     public Command getAutoCommand() {
         return new SequentialCommandGroup(
+                new StrafeRightInches(telemetry,drive,22),
+                new ElevatorToSetpoint(elevator, -1500),
                 new StrafeRightInches(telemetry, drive, 2),
                 new ElevatorToSetpoint(elevator, -900),
                 new InstantCommand(()-> claw.setPosition(1)),
@@ -75,17 +77,21 @@ public class Sample_No_Clip_Auto extends StealthOpMode {
                 new StrafeRightInches(telemetry, drive, -2),
                 new ElevatorToSetpoint(elevator, 0),
                 //new TurnToDegrees(telemetry, drive, -drive.getOdomHeading()),
-                new DriveBackwardInches(telemetry, drive, -15),
+
+
+                new DriveBackwardInches(telemetry, drive, -13),
                 new TurnToDegrees(telemetry, drive, -15),
                 new DriveBackwardInches(telemetry, drive, -1.5),
                 new ArmToSetpoint(arm, -3400),
                 new InstantCommand(() -> intake.setPower(1.0)),
+                new WaitCommand(2000),
+
+                new TurnToDegrees(telemetry, drive, 10),
                 new WaitCommand(1000),
-                new InstantCommand(() -> intake.setPower(0.1)),
-                new TurnToDegrees(telemetry, drive, 15),
+                new InstantCommand(() -> intake.setPower(0.3)),
                 new ArmToSetpoint(arm, 0),
                 new DriveBackwardInches(telemetry, drive, -10),
-                new TurnToDegrees(telemetry, drive, 45)
+                new TurnToDegrees(telemetry, drive, 55)
 
         );
     }
