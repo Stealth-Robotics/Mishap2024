@@ -128,7 +128,7 @@ public class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
                 new SequentialCommandGroup(
                         new ArmToSetpoint(arm, 0),
-                        new ElevatorToSetpoint(elevator, -1300)
+                        new ElevatorToSetpoint(elevator, -1500)
 
                 ));
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(

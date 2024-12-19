@@ -68,8 +68,6 @@ public class Sample_No_Clip_Auto extends StealthOpMode {
     @Override
     public Command getAutoCommand() {
         return new SequentialCommandGroup(
-                new StrafeRightInches(telemetry,drive,23),
-                new ElevatorToSetpoint(elevator, -1300),
                 new StrafeRightInches(telemetry, drive, 2),
                 new ElevatorToSetpoint(elevator, -900),
                 new InstantCommand(()-> claw.setPosition(1)),
