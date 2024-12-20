@@ -40,7 +40,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void setPosition(int position) {
 
-      /*  if (elevatorMotor.getCurrentPosition() + position > 0) {
+        if (elevatorMotor.getCurrentPosition() + position > 0) {
             targetPosition = 0;
         }
         else if (elevatorMotor.getCurrentPosition() + position < -3400) {
@@ -50,7 +50,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         {
             targetPosition = elevatorMotor.getCurrentPosition() + position;
         }
-*/
+
         control.setSetPoint(targetPosition);
         telemetry.addData("A position:", position);
     }
@@ -98,6 +98,7 @@ public class ElevatorSubsystem extends SubsystemBase {
             elevatorMotor.setPower(0.5);
         }
     }
+
 
     public void setPower(double power){
         elevatorMotor.setPower(power);

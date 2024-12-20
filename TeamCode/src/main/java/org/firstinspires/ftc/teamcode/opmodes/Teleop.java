@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import org.firstinspires.ftc.teamcode.commands.ArmDefaultCommand;
 import org.firstinspires.ftc.teamcode.commands.ArmToSetpoint;
 import org.firstinspires.ftc.teamcode.commands.BucketDefaultCommand;
+import org.firstinspires.ftc.teamcode.commands.ClawCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorDefaultCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorReset;
@@ -122,6 +123,8 @@ public class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(
                 new SequentialCommandGroup(
                         new ArmToSetpoint(arm, 0),
+                        new InstantCommand(() -> elevator.setPosition(100)),
+                        new ClawCommand(claw, false),
                         new ElevatorToSetpoint(elevator, 0)
 
                 ));
@@ -213,8 +216,9 @@ public class Teleop extends StealthOpMode {
         mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
                 new SequentialCommandGroup(
                         new ArmToSetpoint(arm, 0),
-                        new ElevatorToSetpoint(elevator, 0),
-                        new InstantCommand(() -> bucket.setPosition(0.17))
+                        new InstantCommand(() -> bucket.setPosition(0.17)),
+                        new ElevatorToSetpoint(elevator, 0)
+
 
                 )
         );
